@@ -1,6 +1,9 @@
-car_ims/*
+__pycache__/*
 devkit/*
 .ipynb_checkpoints/*
+
 *.h5
 *.iml
 *.xml
+*.jpg
+*.pyc
