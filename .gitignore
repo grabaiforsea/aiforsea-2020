@@ -2,3 +2,5 @@ car_ims/*
 devkit/*
 .ipynb_checkpoints/*
 *.h5
+*.iml
+*.xml
