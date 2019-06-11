@@ -24,10 +24,16 @@ n_classes = train_data['target'].nunique()
 
 batch_size = 32
 steps_per_epoch = ceil(len(train_data) * 0.8 / batch_size)
-epochs = 150
 validation_steps = ceil(len(train_data) * 0.2 / batch_size)
+epochs = 150
 
-data_generator = ImageDataGenerator(validation_split=0.2)
+data_generator = ImageDataGenerator(rotation_range=20,
+                                    width_shift_range=0.2,
+                                    height_shift_range=0.2,
+                                    brightness_range=(0.8, 1.2),
+                                    shear_range=0.2,
+                                    zoom_range=0.2,
+                                    validation_split=0.2)
 
 flow_kwargs = {'directory' : 'car_ims',
                'x_col'     : 'filename',
@@ -41,8 +47,8 @@ train_iterator = data_generator.flow_from_dataframe(train_data,
                                                     subset='training')
 
 validation_iterator = data_generator.flow_from_dataframe(train_data,
-                                                         **flow_kwargs,
-                                                         subset='validation')
+                                                               **flow_kwargs,
+                                                               subset='validation')
 
 callbacks = [ModelCheckpoint('aiforsea-model-{epoch}-{val_loss:.4f}.h5',
                              monitor='val_loss',
@@ -52,15 +58,14 @@ callbacks = [ModelCheckpoint('aiforsea-model-{epoch}-{val_loss:.4f}.h5',
              ReduceLROnPlateau(factor=0.2,
                                patience=3),
              CSVLogger(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv")]
-
-top_layers = [Dense(512, activation='relu'),
-              Dense(n_classes, activation='softmax')]
-
+			 
 inception_v3 = InceptionV3(include_top=False, pooling='max')
-top_combined = reduce(lambda first, second: second(first), top_layers, inception_v3.input)
+
+top_layers = [Dense(n_classes, activation='softmax')]
+top_combined = reduce(lambda first, second: second(first), top_layers, inception_v3.output)
 
 model = Model(inputs=[inception_v3.input],
-              outputs=[top_combined.output])
+              outputs=[top_combined])
 
 model.compile('adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
