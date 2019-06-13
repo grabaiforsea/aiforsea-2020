@@ -1,6 +1,7 @@
 import json
 from argparse import ArgumentParser
 
+
 def make_parser(argument_spec_path: str) -> ArgumentParser:
     parser = ArgumentParser()
 

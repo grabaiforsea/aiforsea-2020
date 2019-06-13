@@ -5,7 +5,7 @@ from math import ceil
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
 from keras.preprocessing.image import ImageDataGenerator
 
-from car_cv.models import resnet_model
+from car_cv.models import instantiate_model
 
 n_classes = 196
 
@@ -56,7 +56,7 @@ callbacks = [
                           min_delta=0.01),
         CSVLogger(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv")]
 
-model = resnet_model(image_size, n_classes)
+model = instantiate_model('inception_resnet_v2', image_size, n_classes)
 
 model.fit_generator(generator=train_iterator,
                     steps_per_epoch=steps_per_epoch,

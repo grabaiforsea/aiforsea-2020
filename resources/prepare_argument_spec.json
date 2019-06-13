@@ -1,0 +1,26 @@
+[
+  {
+    "command": ["--download-datasets"],
+    "options": {
+      "nargs": "*",
+      "choices": ["train", "validation"],
+      "metavar": "data_path",
+      "help": "Download and extract the Stanford car image data."
+    }
+  },
+  {
+    "command": ["--download-devkit"],
+    "options": {
+      "action": "store_true",
+      "metavar": "data_path",
+      "help": "Download and extract the Stanford car image devkit, containing bounding boxes and labels for the images."
+    }
+  },
+  {
+    "command": ["--reorganise", "-r"],
+    "options": {
+      "nargs": "*",
+      "help": "Reorganise directories containing images to a format accepted by keras."
+    }
+  }
+]

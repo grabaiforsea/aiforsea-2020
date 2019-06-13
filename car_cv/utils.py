@@ -19,7 +19,7 @@ def len_iter(iterable: Iterable) -> int:
 
 def get_label_info(path: str) -> Tuple[int, int]:
     all_dirs, all_files = zip(*((dir_names, file_names) for _, dir_names, file_names in os.walk(path)))
-    all_dirs  = list(all_dirs)
+    all_dirs = list(all_dirs)
     print(all_dirs)
     n_dirs = len_iter(chain.from_iterable(all_dirs))
     n_files = len_iter(chain.from_iterable(all_files))
@@ -72,5 +72,6 @@ def write_image(image_data: np.ndarray, output_dir: str, output_file_name: str):
     if result is None:
         warn(RuntimeWarning(f'Failed to write image to {output_path}.'))
 
-def collapse(layers: Iterable, initial_layer: Optional = None) -> :
+
+def collapse(layers: Iterable, initial_layer: Optional = None):
     return reduce(lambda first, second: second(first), layers, initial_layer)
