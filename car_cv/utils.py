@@ -1,4 +1,5 @@
 import os
+import tarfile
 from functools import reduce
 from itertools import chain
 from typing import Iterable, Optional, Tuple
@@ -31,3 +32,8 @@ def stream_download(url: str, output_path: str):
 
         else:
             raise RuntimeError(f'Download failed; got HTTP code {req.status}')
+
+
+def extract_tgz(archive_path: str, output_path: str):
+    with tarfile.open(archive_path, 'r:gz') as f:
+        f.extractall(output_path)

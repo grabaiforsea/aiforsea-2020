@@ -19,15 +19,6 @@ flow_kwargs = {'target_size': args.image_size,
                'batch_size' : args.batch_size,
                'seed'       : args.seed}
 
-if args.verbosity == 0:
-    verbosity = 0
-
-elif args.verbosity == 1:
-    verbosity = 2
-
-else:
-    verbosity = 1
-
 if args.training_path:
     n_classes, n_samples = get_label_info(args.training_path)
 
@@ -51,14 +42,15 @@ if args.training_path:
                                                                       **flow_kwargs,
                                                                       subset='validation')
 
-    steps_per_epoch = ceil(n_classes * augmentation_kwargs['validation_split'] / args.batch_size)
-    validation_steps = ceil(n_classes * (1 - augmentation_kwargs['validation_split']) / args.batch_size)
+    # noinspection PyUnboundLocalVariable
+    steps_per_epoch = ceil(n_samples * augmentation_kwargs['validation_split'] / args.batch_size)
+    validation_steps = ceil(n_samples * (1 - augmentation_kwargs['validation_split']) / args.batch_size)
 
     model.fit_generator(training_iterator,
                         steps_per_epoch=steps_per_epoch,
                         epochs=args.epochs,
-                        verbose=verbosity,
-                        callbacks=make_callbacks(verbosity),
+                        verbose=args.verbosity,
+                        callbacks=make_callbacks(args.verbosity),
                         validation_data=validation_iterator,
                         validation_steps=validation_steps)
 

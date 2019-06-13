@@ -35,11 +35,12 @@
     }
   },
   {
-    "command": ["--verbose", "-v"],
+    "command": ["--silent"],
     "options": {
-      "action": "count",
-      "default": 0,
-      "help": "Increase the verbosity of keras. May be specified multiple times.",
+      "action": "store_const",
+      "const": 0,
+      "default": 1,
+      "help": "Sets the verbosity of keras to 0.",
       "dest": "verbosity"
     }
   },
