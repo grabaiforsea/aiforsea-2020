@@ -1,5 +1,5 @@
 numpy
 scipy
 pandas
-cv2
+opencv-python
 keras

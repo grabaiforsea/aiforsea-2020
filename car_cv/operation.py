@@ -1,13 +1,11 @@
-import numpy as np
 import os
 from datetime import datetime
 from math import ceil
 
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
 from keras.preprocessing.image import ImageDataGenerator
-from keras.metrics import sparse_categorical_accuracy
 
-from models import resnet_model
+from car_cv.models import resnet_model
 
 n_classes = 196
 
@@ -37,25 +35,26 @@ validation_iterator = train_data_generator.flow_from_directory(os.path.join('out
                                                                batch_size=batch_size,
                                                                seed=0,
                                                                subset='validation')
-                                                                    
+
 test_iterator = test_data_generator.flow_from_directory(os.path.join('output', 'cars_test'),
                                                         target_size=image_size,
                                                         class_mode='sparse',
                                                         batch_size=batch_size,
                                                         seed=0)
 
-callbacks = [ModelCheckpoint(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}" + '-{epoch}-{val_loss:.4f}.h5',
-                             monitor='val_loss',
-                             verbose=1,
-                             save_best_only=True,
-                             save_weights_only=False,
-                             mode='min',
-							 period=3),
-             ReduceLROnPlateau(factor=0.2,
-                               verbose=1,
-                               patience=4,
-                               min_delta=0.01),
-             CSVLogger(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv")]
+callbacks = [
+        ModelCheckpoint(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}" + '-{epoch}-{val_loss:.4f}.h5',
+                        monitor='val_loss',
+                        verbose=1,
+                        save_best_only=True,
+                        save_weights_only=False,
+                        mode='min',
+                        period=3),
+        ReduceLROnPlateau(factor=0.2,
+                          verbose=1,
+                          patience=4,
+                          min_delta=0.01),
+        CSVLogger(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv")]
 
 model = resnet_model(image_size, n_classes)
 

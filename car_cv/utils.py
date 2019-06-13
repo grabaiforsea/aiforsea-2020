@@ -1,4 +1,7 @@
 import os
+from functools import reduce
+from itertools import chain
+from typing import Iterable, Optional
 from warnings import warn
 
 import cv2
@@ -10,7 +13,20 @@ _TRAIN_LENGTH = 6
 _TEST_LENGTH = 5
 
 
-def load_annotations(path: str):
+def len_iter(iterable: Iterable) -> int:
+    return sum(1 for _ in iterable)
+
+
+def get_label_info(path: str) -> Tuple[int, int]:
+    all_dirs, all_files = zip(*((dir_names, file_names) for _, dir_names, file_names in os.walk(path)))
+    all_dirs  = list(all_dirs)
+    print(all_dirs)
+    n_dirs = len_iter(chain.from_iterable(all_dirs))
+    n_files = len_iter(chain.from_iterable(all_files))
+    return n_dirs, n_files
+
+
+def load_annotations(path: str) -> pd.DataFrame:
     matlab_data = loadmat(path)['annotations'][0, :]
     annotations = np.stack([np.concatenate([array.ravel() for array in row]) for row in matlab_data])
     if annotations.shape[1] == _TRAIN_LENGTH:
@@ -26,7 +42,12 @@ def load_annotations(path: str):
     return df
 
 
-def crop_image(image_data: np.ndarray, bb_x_min: int, bb_x_max: int, bb_y_min: int, bb_y_max: int, pad: int = 16):
+def crop_image(image_data: np.ndarray,
+               bb_x_min: int,
+               bb_x_max: int,
+               bb_y_min: int,
+               bb_y_max: int,
+               pad: int = 16) -> np.ndarray:
     im_y_max, im_x_max = image_data.shape[:2]
     x_min, y_min = max(bb_x_min - pad, 0), max(bb_y_min - pad, 0)
     x_max, y_max = min(bb_x_max + pad, im_x_max), min(bb_y_max + pad, im_y_max)
@@ -51,20 +72,5 @@ def write_image(image_data: np.ndarray, output_dir: str, output_file_name: str):
     if result is None:
         warn(RuntimeWarning(f'Failed to write image to {output_path}.'))
 
-
-def process_images(data: pd.DataFrame, input_base_path: str, output_base_path: str):
-    for _, row in data.iterrows():
-        bb_x_min, bb_y_min, bb_x_max, bb_y_max, label, file_name = row
-
-        input_path = os.path.join(input_base_path, file_name)
-        output_dir = os.path.join(output_base_path, label)
-
-        image = cv2.imread(input_path)
-
-        if image is None:
-            warn(RuntimeWarning(f'Failed to load image from {input_path}.'))
-
-        cropped = crop_image(image, bb_x_min, bb_x_max, bb_y_min, bb_y_max)
-        check_dims(cropped, f'The cropped image from {input_path} has at least one 0-length axis.')
-
-        write_image(cropped, output_dir, file_name)
+def collapse(layers: Iterable, initial_layer: Optional = None) -> :
+    return reduce(lambda first, second: second(first), layers, initial_layer)

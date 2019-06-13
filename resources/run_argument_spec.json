@@ -1,0 +1,75 @@
+[
+  {
+    "command": ["--train", "-t"],
+    "options": {
+      "metavar": "data_path",
+      "help": "Train (fit) a classification model on the data in the data_path directory."
+    }
+  },
+  {
+    "command": ["--evaluate", "-e"],
+    "options": {
+      "metavar": "data_path",
+      "help": "Evaluate a classification model on the data in the data_path directory. Requires either --train or --load-path must be specified."
+
+    }
+  },
+  {
+    "command": ["--architecture", "-a"],
+    "options": {
+      "nargs": "?",
+      "choices": ["simple", "inception_resnet_v2"],
+      "const": "inception_resnet_v2",
+      "default": "inception_resnet_v2",
+      "metavar": "architecture",
+      "help": "Specify the architecture to use to train a model from scratch. Defaults to \"inception_resnet_v2\". Cannot coexist with --load_path."
+    }
+  },
+  {
+    "command": ["--predict", "-p"],
+    "options": {
+      "metavar": "data_path",
+      "help": "Perform prediction (inference) using a classification model on the data in the data_path directory. Either --train or --load-path must be specified."
+    }
+  },
+  {
+    "command": ["--verbose", "-v"],
+    "options": {
+      "action": "count",
+      "help": "Increase the verbosity of keras. May be specified multiple times."
+    }
+  },
+  {
+    "command": ["--image-size"],
+    "options": {
+      "nargs": 2,
+      "default": [224, 224],
+      "metavar": ["x", "y"],
+      "help": "The dimensions (x, y) to resize images to. Defaults to (224, 224)"
+    }
+  },
+  {
+    "command": ["--epochs"],
+    "options": {
+      "nargs": "?",
+      "const": 25,
+      "default": 25,
+      "metavar": "n_epochs",
+      "help": "The maximum number of epochs to run training for. Ignored if --train is not specified."
+    }
+  },
+  {
+    "command": ["--save-path"],
+    "options": {
+      "metavar": "model_path",
+      "help": "The path to which to save the trained model. Requires --train to be specified."
+    }
+  },
+  {
+    "command": ["--load-path"],
+    "options": {
+      "metavar": "model_path",
+      "help": "The path from which to load a model. Cannot coexist with --architecture."
+    }
+  }
+]
