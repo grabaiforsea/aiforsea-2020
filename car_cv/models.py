@@ -1,6 +1,7 @@
 from typing import Tuple, Optional, Mapping, Any
 
 from keras.applications.inception_resnet_v2 import InceptionResNetV2
+from keras.optimizers import SGD
 from keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Flatten, Input
 from keras.models import Model
 
@@ -36,7 +37,7 @@ def _simple(image_size: Tuple[int, int], n_classes: int):
 def _inception_resnet_v2(image_size: Tuple[int, int],
                          n_classes: int,
                          compile_kwargs: Optional[Mapping[str, Any]] = None):
-    default_compile_kwargs = {'optimizer': 'sgd',
+    default_compile_kwargs = {'optimizer': SGD(lr=0.1, decay=0.05),
                               'loss': 'sparse_categorical_crossentropy',
                               'metrics': ['accuracy']}
     compile_kwargs = compile_kwargs or default_compile_kwargs
