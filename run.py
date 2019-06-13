@@ -43,8 +43,8 @@ if args.training_path:
                                                                       subset='validation')
 
     # noinspection PyUnboundLocalVariable
-    steps_per_epoch = ceil(n_samples * augmentation_kwargs['validation_split'] / args.batch_size)
-    validation_steps = ceil(n_samples * (1 - augmentation_kwargs['validation_split']) / args.batch_size)
+    steps_per_epoch = ceil(n_samples * (1 - augmentation_kwargs['validation_split']) / args.batch_size)
+    validation_steps = ceil(n_samples * augmentation_kwargs['validation_split'] / args.batch_size)
 
     model.fit_generator(training_iterator,
                         steps_per_epoch=steps_per_epoch,
