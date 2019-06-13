@@ -2,6 +2,14 @@ from datetime import datetime
 from typing import List
 
 from keras.callbacks import CSVLogger, ReduceLROnPlateau, ModelCheckpoint, Callback
+from keras.optimizers import SGD
+
+n_channels = 3
+
+compile_kwargs = {'optimizer': SGD(lr=0.05),
+                  'loss': 'sparse_categorical_crossentropy',
+                  'metrics': ['accuracy']}
+
 
 augmentation_kwargs = {'rotation_range'  : 15,
                        'brightness_range': (0.9, 1.1),
@@ -13,6 +21,15 @@ csv_string = f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv"
 
 
 def make_callbacks(verbosity: int) -> List[Callback]:
+    """
+    Create a `list` of default callbacks to use for model training.
+
+    Args:
+        verbosity: The level of verbosity of the callbacks.
+
+    Returns:
+        A `list` of callbacks.
+    """
     return [ModelCheckpoint(model_string,
                             monitor='val_loss',
                             verbose=verbosity,

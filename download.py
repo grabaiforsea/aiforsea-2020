@@ -29,12 +29,13 @@ for dataset in args.datasets:
 for devkit in args.devkit:
     devkit_path = os.path.join(args.output_folder, devkit)
     if devkit == 'train':
-        stream_download(dataset_urls[devkit], '_temp_dataset')
+        stream_download(dataset_urls[devkit], '_TEMPFILE')
         extract_tgz('_temp_dataset', '_TEMPDIR')
         os.rename(os.path.join('_TEMPDIR', 'cars_train_annos.mat'), devkit_path)
         os.rmdir('_TEMPDIR')
+        os.remove('_TEMPFILE')
 
     else:
         stream_download(dataset_urls[devkit], devkit_path)
 
-    os.remove('_TEMPFILE')
+

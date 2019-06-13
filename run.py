@@ -4,10 +4,10 @@ from math import ceil
 from keras.models import load_model
 from keras_preprocessing.image import ImageDataGenerator
 
-from car_cv.defaults import augmentation_kwargs, make_callbacks
+from car_cv.defaults import augmentation_kwargs, make_callbacks, n_channels
 from car_cv.models import instantiate_model
 from car_cv.parsing import make_parser
-from car_cv.utils import get_label_info
+from car_cv.utils import get_dir_info
 
 argument_spec_path = os.path.join('resources', 'run_argument_spec.json')
 
@@ -20,14 +20,14 @@ flow_kwargs = {'target_size': args.image_size,
                'seed'       : args.seed}
 
 if args.training_path:
-    n_classes, n_samples = get_label_info(args.training_path)
+    n_classes, n_samples = get_dir_info(args.training_path)
 
 if args.load_path is not None:
     model = load_model(args.load_path)
 
 elif args.architecture is not None and args.training_path:
     # noinspection PyUnboundLocalVariable
-    model = instantiate_model(args.architecture, (*args.image_size, 3), n_classes)
+    model = instantiate_model(args.architecture, (*args.image_size, n_channels), n_classes)
 
 else:
     model = None
