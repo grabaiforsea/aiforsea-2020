@@ -3,15 +3,24 @@
     "command": ["--train", "-t"],
     "options": {
       "metavar": "data_path",
-      "help": "Train (fit) a classification model on the data in the data_path directory."
+      "help": "Train (fit) a classification model on the data in the data_path directory.",
+      "dest": "training_path"
     }
   },
   {
     "command": ["--evaluate", "-e"],
     "options": {
       "metavar": "data_path",
-      "help": "Evaluate a classification model on the data in the data_path directory. Requires either --train or --load-path must be specified."
-
+      "help": "Evaluate a classification model on the data in the data_path directory. Requires either --train or --load-path must be specified.",
+      "dest": "evaluation_path"
+    }
+  },
+  {
+    "command": ["--predict", "-p"],
+    "options": {
+      "metavar": "data_path",
+      "help": "Perform prediction (inference) using a classification model on the data in the data_path directory. Either --train or --load-path must be specified.",
+      "dest": "prediction_path"
     }
   },
   {
@@ -19,24 +28,19 @@
     "options": {
       "nargs": "?",
       "choices": ["simple", "inception_resnet_v2"],
-      "const": "inception_resnet_v2",
+      "const": null,
       "default": "inception_resnet_v2",
       "metavar": "architecture",
-      "help": "Specify the architecture to use to train a model from scratch. Defaults to \"inception_resnet_v2\". Cannot coexist with --load_path."
-    }
-  },
-  {
-    "command": ["--predict", "-p"],
-    "options": {
-      "metavar": "data_path",
-      "help": "Perform prediction (inference) using a classification model on the data in the data_path directory. Either --train or --load-path must be specified."
+      "help": "Specify the architecture to use to train a model from scratch. Defaults to \"inception_resnet_v2\". Ignored if --train is not specified."
     }
   },
   {
     "command": ["--verbose", "-v"],
     "options": {
       "action": "count",
-      "help": "Increase the verbosity of keras. May be specified multiple times."
+      "default": 0,
+      "help": "Increase the verbosity of keras. May be specified multiple times.",
+      "dest": "verbosity"
     }
   },
   {
@@ -59,6 +63,16 @@
     }
   },
   {
+    "command": ["--batch_size"],
+    "options": {
+      "nargs": "?",
+      "const": 12,
+      "default": 12,
+      "help": "The number of images to package in a batch for training and/or prediction. If you encounter memory errors, try decreasing this. Defaults to 12.",
+      "dest": "batch_size"
+    }
+  },
+  {
     "command": ["--save-path"],
     "options": {
       "metavar": "model_path",
@@ -70,6 +84,15 @@
     "options": {
       "metavar": "model_path",
       "help": "The path from which to load a model. Cannot coexist with --architecture."
+    }
+  },
+  {
+    "command": ["--seed"],
+    "options": {
+      "nargs": "?",
+      "default": 0,
+      "const": 0,
+      "help": "The random seed to pass to the image data generators. Defaults to 0."
     }
   }
 ]

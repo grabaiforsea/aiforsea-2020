@@ -1,0 +1,27 @@
+[
+  {
+    "command": ["--datasets"],
+    "options": {
+      "nargs": "*",
+      "default": [],
+      "choices": ["train", "test"],
+      "help": "Download and extract the Stanford car image data."
+    }
+  },
+  {
+    "command": ["--devkits"],
+    "options": {
+      "nargs": "*",
+      "default": [],
+      "choices": ["train", "test"],
+      "help": "Download and extract a Stanford car image devkit, containing bounding boxes and labels."
+    }
+  },
+  {
+    "command": ["--output-folder"],
+    "options": {
+      "default": "data",
+      "help": "The folder to which to save downloaded data."
+    }
+  }
+]

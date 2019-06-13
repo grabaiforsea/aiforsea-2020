@@ -1,0 +1,37 @@
+[
+  {
+    "command": ["devkit_path"],
+    "options": {
+      "help": "The path to the MATLAB matrix containing bounding box and image path information."
+    }
+  },
+  {
+    "command": ["image_path"],
+    "options": {
+      "help": "The directory containing the images to process."
+    }
+  },
+  {
+    "command": ["--reorganise", "-r"],
+    "options": {
+      "action": "store_true",
+      "help": "Reorganise the images listed in the devkit to a format accepted by keras for training. Ignored if labels are not present."
+    }
+  },
+  {
+    "command": ["--crop", "--c"],
+    "options": {
+      "action": "store_true",
+      "help": "Crop the images listed in the devkit according to the bounding box information provided in the devkit."
+    }
+  },
+  {
+    "command": ["--output-path", "-o"],
+    "options": {
+      "default": "output",
+      "help": "Where to store the output.",
+      "dest": "output_path"
+    }
+  }
+]
+
