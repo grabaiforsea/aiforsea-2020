@@ -2,6 +2,7 @@ __pycache__/*
 devkit/*
 .ipynb_checkpoints/*
 
+*.csv
 *.h5
 *.iml
 *.xml

@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import Tuple, Optional, Mapping, Iterable, Any
 
-from keras.applications.inception_v3 import InceptionV3
+from keras.applications.inception_resnet_v2 import InceptionResNetV2
 from keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Flatten, Input
 from keras.models import Model
 
@@ -32,7 +32,7 @@ def simple_model(image_size: Tuple[int, int], n_classes: int):
     return model
 
 
-def inception_v3_model(image_size: Tuple[int, int],
+def resnet_model(image_size: Tuple[int, int],
                        n_classes: int,
                        compile_kwargs: Optional[Mapping[str, Any]] = None):
     default_compile_kwargs = {'optimizer': 'sgd',
@@ -40,13 +40,11 @@ def inception_v3_model(image_size: Tuple[int, int],
                               'metrics': ['accuracy']}
     compile_kwargs = compile_kwargs or default_compile_kwargs
 
-    inception_v3 = InceptionV3(include_top=False, pooling='max')
+    base_model = InceptionResNetV2(include_top=False, pooling='avg')
+    top_layers = [Dense(n_classes, activation='softmax')]
+    top_combined = collapse(top_layers, base_model.output)
 
-    top_layers = [Dense(2048, activation='relu'),
-                  Dense(n_classes, activation='softmax')]
-    top_combined = collapse(top_layers, inception_v3.output)
-
-    model = Model(inputs=[inception_v3.input],
+    model = Model(inputs=[base_model.input],
                   outputs=[top_combined])
     model.compile(**compile_kwargs)
 

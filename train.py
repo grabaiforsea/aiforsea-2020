@@ -1,48 +1,63 @@
+import numpy as np
 import os
 from datetime import datetime
 from math import ceil
 
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, CSVLogger
 from keras.preprocessing.image import ImageDataGenerator
+from keras.metrics import sparse_categorical_accuracy
 
-from models import inception_v3_model
+from models import resnet_model
 
 n_classes = 196
 
-batch_size = 32
-t = 8144
-steps_per_epoch = ceil(t * 0.8 / batch_size)
-epochs = 150
-validation_steps = ceil(t * 0.2 / batch_size)
+batch_size = 10
+steps_per_epoch = ceil(8144 * 0.8 / batch_size)
+validation_steps = ceil(8144 * 0.2 / batch_size)
+epochs = 100
+test_steps = ceil(8041 / batch_size)
 
-image_size = (224, 224)
+image_size = (299, 299)
 
-data_generator = ImageDataGenerator(validation_split=0.2)
+train_data_generator = ImageDataGenerator(rotation_range=15,
+                                          shear_range=0.1,
+                                          validation_split=0.1)
+test_data_generator = ImageDataGenerator()
 
-train_iterator = data_generator.flow_from_directory(os.path.join('output', 'cars_train'),
-                                                    target_size=image_size,
-                                                    class_mode='sparse',
-                                                    batch_size=batch_size,
-                                                    seed=0,
-                                                    subset='training')
+train_iterator = train_data_generator.flow_from_directory(os.path.join('output', 'cars_train'),
+                                                          target_size=image_size,
+                                                          class_mode='sparse',
+                                                          batch_size=batch_size,
+                                                          seed=0,
+                                                          subset='training')
 
-validation_iterator = data_generator.flow_from_directory(os.path.join('output', 'cars_train'),
-                                                         target_size=image_size,
-                                                         class_mode='sparse',
-                                                         batch_size=batch_size,
-                                                         seed=0,
-                                                         subset='validation')
+validation_iterator = train_data_generator.flow_from_directory(os.path.join('output', 'cars_train'),
+                                                               target_size=image_size,
+                                                               class_mode='sparse',
+                                                               batch_size=batch_size,
+                                                               seed=0,
+                                                               subset='validation')
+                                                                    
+test_iterator = test_data_generator.flow_from_directory(os.path.join('output', 'cars_test'),
+                                                        target_size=image_size,
+                                                        class_mode='sparse',
+                                                        batch_size=batch_size,
+                                                        seed=0)
 
-callbacks = [ModelCheckpoint('aiforsea-model-{epoch}-{val_loss:.4f}.h5',
+callbacks = [ModelCheckpoint(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}" + '-{epoch}-{val_loss:.4f}.h5',
                              monitor='val_loss',
+                             verbose=1,
                              save_best_only=True,
-                             save_weights_only=True,
-                             mode='min'),
+                             save_weights_only=False,
+                             mode='min',
+							 period=3),
              ReduceLROnPlateau(factor=0.2,
-                               patience=3),
+                               verbose=1,
+                               patience=4,
+                               min_delta=0.01),
              CSVLogger(f"aiforsea-model-{datetime.now().strftime('%Y%m%d-%H%m%S')}.csv")]
 
-model = inception_v3_model(image_size, n_classes)
+model = resnet_model(image_size, n_classes)
 
 model.fit_generator(generator=train_iterator,
                     steps_per_epoch=steps_per_epoch,
