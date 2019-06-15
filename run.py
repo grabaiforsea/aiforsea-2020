@@ -65,12 +65,13 @@ if args.evaluation_path:
     evaluation_iterator = evaluation_data_generator.flow_from_directory(args.evaluation_path,
                                                                         shuffle=False,
                                                                         **flow_kwargs)
-    evaluation_result = model.evaluate_generator(evaluation_iterator)
-    print(evaluation_result)
+    evaluation_results = model.evaluate_generator(evaluation_iterator)
+    for metric, value in zip(model.metrics_names, evaluation_results):
+        print(f'{metric}: {value}')
 
 
-if args.prediction_path:
-    prediction_data_path, prediction_output_path = args.prediction_path
+if args.prediction_paths:
+    prediction_data_path, prediction_output_path = args.prediction_paths
     prediction_data_generator = ImageDataGenerator()
     prediction_iterator = prediction_data_generator.flow_from_directory(prediction_data_path,
                                                                         shuffle=False,
