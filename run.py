@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from math import ceil
 
 from keras.models import load_model
@@ -77,4 +78,4 @@ if args.prediction_paths:
                                                                         shuffle=False,
                                                                         **flow_kwargs)
     prediction_result = model.predict_generator(prediction_iterator)
-    prediction_result.save(prediction_output_path)
+    np.save(prediction_output_path, prediction_result)
