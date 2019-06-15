@@ -43,10 +43,10 @@ def inception_v4(input_shape: Tuple[int, int], n_classes: int) -> Model:
     """
 
     if K.image_data_format() == 'channels_last':
-        input_tensor = Input((*input_shape, 3))
+        input_tensor = Input(shape=(*input_shape, 3))
 
     else:
-        input_tensor = Input((3, *input_shape))
+        input_tensor = Input(shape=(3, *input_shape))
 
     classification_layer = Dense(n_classes, activation='softmax')
 

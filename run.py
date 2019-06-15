@@ -33,7 +33,7 @@ elif args.architecture is not None and args.training_path:
 
     else:
         # noinspection PyUnboundLocalVariable
-        model = instantiate_custom(args.architecture, (*args.image_size, n_channels), n_classes)
+        model = instantiate_custom(args.architecture, args.image_size, n_classes)
 
 else:
     model = None
