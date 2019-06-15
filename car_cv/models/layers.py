@@ -1,10 +1,10 @@
 from functools import partial
 from typing import Tuple, Optional, Mapping, Any, List
 
+# noinspection PyPep8Naming
+from keras import backend as K
 from keras.engine import Layer
 from keras.layers import Conv2D, BatchNormalization, Activation
-
-from car_cv.models.inception_v4 import _CHANNEL_AXIS
 
 
 def bn_conv2d(filters: int,
@@ -19,10 +19,10 @@ def bn_conv2d(filters: int,
     https://github.com/keras-team/keras-applications/blob/master/keras_applications/inception_v3.py
 
     Args:
-        filters: The number of filters to pass to the Conv2D constructor.
-        kernel_size: The kernel size to pass to the Conv2D constructor.
-        strides: The stride width in each dimension to pass to the Conv2D constructor.
-        padding: The padding mode to pass to the Conv2D constructor.
+        filters: The number of filters; will be passsed to the Conv2D constructor.
+        kernel_size: The kernel size; will be passsed to the Conv2D constructor.
+        strides: The stride width in each dimension; will be passsed to the Conv2D constructor.
+        padding: The padding mode; will be passsed to the Conv2D constructor.
         name: The name to which "_conv2d" and "_bn" will be appended for the Conv2D and BatchNormalization layers
         respectively.
         conv2d_kwargs: Keyword arguments to pass to the Conv2D constructor.
@@ -46,8 +46,14 @@ def bn_conv2d(filters: int,
         conv2d_name = None
         bn_name = None
 
+    if K.image_data_format() == 'channels_last':
+        channel_axis = -1
+
+    else:
+        channel_axis = 1
+
     layers = [Conv2D(filters, kernel_size, strides=strides, padding=padding, name=conv2d_name, **conv2d_kwargs),
-              BatchNormalization(axis=_CHANNEL_AXIS, name=bn_name, scale=False, **bn_kwargs),
+              BatchNormalization(axis=channel_axis, name=bn_name, scale=False, **bn_kwargs),
               Activation('relu')
               ]
 
@@ -55,7 +61,6 @@ def bn_conv2d(filters: int,
 
 
 # Convenience aliases for common layer shapes.
-
 
 bn_conv2d_1x1 = partial(bn_conv2d, kernel_size=(1, 1))
 bn_conv2d_3x3 = partial(bn_conv2d, kernel_size=(3, 3))

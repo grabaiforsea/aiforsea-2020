@@ -1,3 +1,7 @@
+from typing import Tuple
+
+from keras import Model
+
 from .inception_v4 import inception_v4
 from car_cv.defaults import compile_kwargs as default_compile_kwargs
 

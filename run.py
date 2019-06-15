@@ -5,8 +5,9 @@ from keras.models import load_model
 from keras_preprocessing.image import ImageDataGenerator
 
 from car_cv.defaults import augmentation_kwargs, make_callbacks, n_channels
-from car_cv.prebuilt import instantiate_model, _PREBUILTS, instantiate_prebuilt
+from car_cv.models import instantiate_custom
 from car_cv.parsing import make_parser
+from car_cv.prebuilt import prebuilts, instantiate_prebuilt
 from car_cv.utils import get_dir_info
 
 argument_spec_path = os.path.join('resources', 'run_argument_spec.json')
@@ -26,13 +27,13 @@ if args.load_path is not None:
     model = load_model(args.load_path)
 
 elif args.architecture is not None and args.training_path:
-    if args.architecture in _PREBUILTS:
+    if args.architecture in prebuilts:
         # noinspection PyUnboundLocalVariable
-        model = instantiate_model(args.architecture, (*args.image_size, n_channels), n_classes)
+        model = instantiate_prebuilt(args.architecture, (*args.image_size, n_channels), n_classes)
 
     else:
         # noinspection PyUnboundLocalVariable
-        model = instantiate_prebuilt(args.architecture, (*args.image_size, n_channels), n_classes)
+        model = instantiate_custom(args.architecture, (*args.image_size, n_channels), n_classes)
 
 else:
     model = None

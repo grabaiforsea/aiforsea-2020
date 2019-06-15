@@ -5,9 +5,9 @@ from itertools import chain
 from typing import Iterable, Tuple, Any
 
 import requests
+from keras.engine import Layer
 
 TensorType = Any
-
 
 
 def len_iter(iterable: Iterable) -> int:

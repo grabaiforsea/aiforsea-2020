@@ -16,21 +16,21 @@ class PrebuiltArchitecture(NamedTuple):
     compile_kwargs: Mapping[str, Any]
 
 
-_PREBUILTS = {'inception_resnet_v2': PrebuiltArchitecture(base_model=applications.InceptionResNetV2,
-                                                          top_layers=[],
-                                                          pooling='avg',
-                                                          compile_kwargs=default_compile_kwargs),
-              'inception_v3': PrebuiltArchitecture(base_model=applications.InceptionV3,
-                                                   top_layers=[],
-                                                   pooling='avg',
-                                                   compile_kwargs=default_compile_kwargs),
-              'VGG19': PrebuiltArchitecture(base_model=applications.VGG19,
-                                            top_layers=[Flatten(),
-                                                        Dense(4096),
-                                                        Dense(4096)],
-                                            pooling='max',
-                                            compile_kwargs=default_compile_kwargs)
-              }
+prebuilts = {'inception_resnet_v2': PrebuiltArchitecture(base_model=applications.InceptionResNetV2,
+                                                         top_layers=[],
+                                                         pooling='avg',
+                                                         compile_kwargs=default_compile_kwargs),
+             'inception_v3': PrebuiltArchitecture(base_model=applications.InceptionV3,
+                                                  top_layers=[],
+                                                  pooling='avg',
+                                                  compile_kwargs=default_compile_kwargs),
+             'VGG19': PrebuiltArchitecture(base_model=applications.VGG19,
+                                           top_layers=[Flatten(),
+                                                       Dense(4096),
+                                                       Dense(4096)],
+                                           pooling='max',
+                                           compile_kwargs=default_compile_kwargs)
+             }
 
 
 def instantiate_prebuilt(architecture: PrebuiltArchitecture,

@@ -6,7 +6,7 @@ from keras.layers import concatenate
 from car_cv.utils import TensorType
 
 
-def build_from_spec(spec: Iterable[Union[List, Tuple]], previous: TensorType, channel_axis: int = -1) -> TensorType:
+def build_from_spec(spec: Iterable[Union[List, Tuple]], previous: TensorType) -> TensorType:
     """
     Converts a specification, in the form of an iterable of keras layers, possibly including further `lists` and/or
     `tuples` thereof, into an output tensor. `lists` represent linearly connected layers; `tuples` should always contain
@@ -16,7 +16,6 @@ def build_from_spec(spec: Iterable[Union[List, Tuple]], previous: TensorType, ch
     Args:
         spec: The model specification.
         previous: The input tensor.
-        channel_axis: The index of the axis containing channels.
 
     Returns:
         An output tensor.
@@ -36,7 +35,7 @@ def build_from_spec(spec: Iterable[Union[List, Tuple]], previous: TensorType, ch
             return power_collapse(sub_spec, current)
 
         elif isinstance(sub_spec, tuple):
-            return concatenate([build_sub_block(current, branch_spec) for branch_spec in sub_spec], axis=channel_axis)
+            return concatenate([build_sub_block(current, branch_spec) for branch_spec in sub_spec])
 
         else:
             return sub_spec(current)
