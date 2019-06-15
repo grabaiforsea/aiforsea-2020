@@ -47,9 +47,9 @@
     "command": ["--image-size"],
     "options": {
       "nargs": 2,
-      "default": [224, 224],
+      "default": [299, 299],
       "metavar": ["x", "y"],
-      "help": "The dimensions (x, y) to resize images to. Defaults to (224, 224)"
+      "help": "The dimensions (x, y) to resize images to. Defaults to (299, 299). Note that too low a value for this parameter will be incompatible with certain architectures."
     }
   },
   {
