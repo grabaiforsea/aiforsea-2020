@@ -29,7 +29,7 @@ if args.load_path is not None:
 elif args.architecture is not None and args.training_path:
     if args.architecture in prebuilts:
         # noinspection PyUnboundLocalVariable
-        model = instantiate_prebuilt(args.architecture, (*args.image_size, n_channels), n_classes)
+        model = instantiate_prebuilt(prebuilts[args.architecture], (*args.image_size, n_channels), n_classes)
 
     else:
         # noinspection PyUnboundLocalVariable
