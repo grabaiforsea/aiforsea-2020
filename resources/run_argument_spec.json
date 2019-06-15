@@ -11,24 +11,23 @@
     "command": ["--evaluate", "-e"],
     "options": {
       "metavar": "data_path",
-      "help": "Evaluate a classification model on the data in the data_path directory. Requires either --train or --load-path must be specified.",
+      "help": "Evaluate a classification model on the data in the data_path directory. Either --train or --load-path must be specified.",
       "dest": "evaluation_path"
     }
   },
   {
     "command": ["--predict", "-p"],
     "options": {
-      "metavar": "data_path",
-      "help": "Perform prediction (inference) using a classification model on the data in the data_path directory. Either --train or --load-path must be specified.",
-      "dest": "prediction_path"
+      "nargs": 2,
+      "metavar": ["data_path", "output_path"],
+      "help": "Perform prediction (inference) using a classification model on the data in the data_path directory, saving the result as a numpy array. Either --train or --load-path must be specified. ",
+      "dest": "prediction_paths"
     }
   },
   {
     "command": ["--architecture", "-a"],
     "options": {
-      "nargs": "?",
       "choices": ["simple", "inception_resnet_v2"],
-      "const": null,
       "default": "inception_resnet_v2",
       "metavar": "architecture",
       "help": "Specify the architecture to use to train a model from scratch. Defaults to \"inception_resnet_v2\". Ignored if --train is not specified."
@@ -59,6 +58,7 @@
       "nargs": "?",
       "const": 25,
       "default": 25,
+      "type": "int",
       "metavar": "n_epochs",
       "help": "The maximum number of epochs to run training for. Ignored if --train is not specified."
     }
@@ -69,6 +69,7 @@
       "nargs": "?",
       "const": 12,
       "default": 12,
+      "type": "int",
       "help": "The number of images to package in a batch for training and/or prediction. If you encounter memory errors, try decreasing this. Defaults to 12.",
       "dest": "batch_size"
     }
@@ -93,6 +94,7 @@
       "nargs": "?",
       "default": 0,
       "const": 0,
+      "type": "int",
       "help": "The random seed to pass to the image data generators. Defaults to 0."
     }
   }

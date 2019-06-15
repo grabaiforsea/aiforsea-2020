@@ -1,5 +1,7 @@
 import os
 
+from shutil import rmtree
+
 from car_cv.parsing import make_parser
 from car_cv.utils import stream_download, extract_tgz
 
@@ -20,22 +22,32 @@ try:
 except FileExistsError:
     pass
 
-for dataset in args.datasets:
-    dataset_path = os.path.join(args.output_folder, dataset)
-    stream_download(dataset_urls[dataset], '_TEMPFILE')
-    extract_tgz('_temp_dataset', dataset_path)
-    os.remove('_TEMPFILE')
+for dataset_type in args.datasets:
+    print(f'Downloading {dataset_type} dataset...')
+    try:
+        dataset_path = os.path.join(args.output_folder, f'devkit_{dataset_type}.mat')
+        stream_download(dataset_urls[dataset_type], '_TEMPFILE')
+        extract_tgz('_TEMPFILE', dataset_path)
 
-for devkit in args.devkit:
-    devkit_path = os.path.join(args.output_folder, devkit)
-    if devkit == 'train':
-        stream_download(dataset_urls[devkit], '_TEMPFILE')
-        extract_tgz('_temp_dataset', '_TEMPDIR')
-        os.rename(os.path.join('_TEMPDIR', 'cars_train_annos.mat'), devkit_path)
-        os.rmdir('_TEMPDIR')
+    finally:
         os.remove('_TEMPFILE')
 
+    print(f'Done downloading {dataset_type} dataset.')
+
+for devkit_type in args.devkits:
+    print(f'Downloading {devkit_type} devkit...')
+    devkit_path = os.path.join(args.output_folder, f'devkit_{devkit_type}.mat')
+    if devkit_type == 'train':
+        try:
+            stream_download(devkit_urls[devkit_type], '_TEMPFILE')
+            extract_tgz('_TEMPFILE', '_TEMPDIR')
+            os.rename(os.path.join('_TEMPDIR', 'devkit', 'cars_train_annos.mat'), devkit_path)
+
+        finally:
+            rmtree('_TEMPDIR')
+            os.remove('_TEMPFILE')
+
     else:
-        stream_download(dataset_urls[devkit], devkit_path)
+        stream_download(devkit_urls[devkit_type], devkit_path)
 
-
+    print(f'Done downloading {devkit_type} devkit.')

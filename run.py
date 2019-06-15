@@ -5,7 +5,7 @@ from keras.models import load_model
 from keras_preprocessing.image import ImageDataGenerator
 
 from car_cv.defaults import augmentation_kwargs, make_callbacks, n_channels
-from car_cv.models import instantiate_model
+from car_cv.prebuilt import instantiate_model
 from car_cv.parsing import make_parser
 from car_cv.utils import get_dir_info
 
@@ -54,8 +54,20 @@ if args.training_path:
                         validation_data=validation_iterator,
                         validation_steps=validation_steps)
 
+if args.evaluation_path:
+    evaluation_data_generator = ImageDataGenerator()
+    evaluation_iterator = evaluation_data_generator.flow_from_directory(args.evaluation_path,
+                                                                        shuffle=False,
+                                                                        **flow_kwargs)
+    evaluation_result = model.evaluate_generator(evaluation_iterator)
+    print(evaluation_result)
+
+
 if args.prediction_path:
+    prediction_data_path, prediction_output_path = args.prediction_path
     prediction_data_generator = ImageDataGenerator()
-    prediction_iterator = prediction_data_generator.flow_from_directory(args.prediction_path, **flow_kwargs)
-    result = model.predict_generator(prediction_iterator)
-    result.save('prediction_result')
+    prediction_iterator = prediction_data_generator.flow_from_directory(prediction_data_path,
+                                                                        shuffle=False,
+                                                                        **flow_kwargs)
+    prediction_result = model.predict_generator(prediction_iterator)
+    prediction_result.save(prediction_output_path)

@@ -28,9 +28,8 @@
   {
     "command": ["--output-path", "-o"],
     "options": {
-      "default": "output",
-      "help": "Where to store the output.",
-      "dest": "output_path"
+      "default": "preprocess_output",
+      "help": "Where to store the preprocessed output."
     }
   }
 ]
