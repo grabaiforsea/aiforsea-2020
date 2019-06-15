@@ -7,7 +7,7 @@ from car_cv.models.layers import bn_conv2d_3x3, bn_conv2d_1x1, bn_conv2d
 from car_cv.models.model_builder import build_from_spec
 
 
-# This module is my implementation of InceptionV4, based on the https://arxiv.org/pdf/1602.07261v1.pdf, with some
+# This module is my implementation of InceptionV4, based on https://arxiv.org/pdf/1602.07261v1.pdf, with some
 # differences from the architecture laid out in the paper's diagrams.
 #
 # Stem:
@@ -27,7 +27,18 @@ from car_cv.models.model_builder import build_from_spec
 # left it in in the interests of consistency.
 
 
-def inception_v4(input_shape: Tuple[int, int], n_classes: int, channel_axis: int) -> Model:
+def inception_v4(input_shape: Tuple[int, int], n_classes: int, channel_axis: int = -1) -> Model:
+    """
+    Instantiates a model based on the InceptionV4 architecture.
+
+    Args:
+        input_shape: The shape of the input image.
+        n_classes: The number of classes to perform classification into.
+        channel_axis: The index of the axis containing channels.
+
+    Returns:
+        A parametrised instance of the InceptionV4 model.
+    """
 
     input_tensor = Input((*input_shape, 3))
     classification_layer = Dense(n_classes, activation='softmax')

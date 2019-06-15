@@ -1,4 +1,3 @@
-from functools import reduce
 from typing import Tuple, Mapping, Any, Iterable, NamedTuple
 
 from keras import applications
@@ -7,7 +6,6 @@ from keras.layers import Dense, Flatten
 from keras.models import Model
 
 from car_cv.defaults import compile_kwargs as default_compile_kwargs
-from car_cv.models.inception_v4 import inception_v4
 from car_cv.utils import collapse
 
 
@@ -61,8 +59,3 @@ def instantiate_prebuilt(architecture: PrebuiltArchitecture,
     model.compile(**architecture.compile_kwargs)
 
     return model
-
-def instantiate_custom(model,
-                       image_size: Tuple[int, int],
-                       n_classes: int) -> Model:
-    pass

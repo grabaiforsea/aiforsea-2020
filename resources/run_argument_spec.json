@@ -27,7 +27,7 @@
   {
     "command": ["--architecture", "-a"],
     "options": {
-      "choices": ["simple", "inception_resnet_v2"],
+      "choices": ["simple", "inception_resnet_v2", "inception_v4"],
       "default": "inception_resnet_v2",
       "metavar": "architecture",
       "help": "Specify the architecture to use to train a model from scratch. Defaults to \"inception_resnet_v2\". Ignored if --train is not specified."

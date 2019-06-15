@@ -28,12 +28,12 @@ def build_from_spec(spec: Iterable[Union[List, Tuple]], previous: TensorType, ch
         else:
             return obj(tensor)
 
-    def collapse(layers, initial):
+    def power_collapse(layers, initial):
         return reduce(reduction_func, layers, initial)
 
     def build_sub_block(current, sub_spec):
         if isinstance(sub_spec, list):
-            return collapse(sub_spec, current)
+            return power_collapse(sub_spec, current)
 
         elif isinstance(sub_spec, tuple):
             return concatenate([build_sub_block(current, branch_spec) for branch_spec in sub_spec], axis=channel_axis)
