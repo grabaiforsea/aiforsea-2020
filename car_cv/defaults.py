@@ -13,7 +13,7 @@ augmentation_kwargs = {'rotation_range'  : 15,
                        'validation_split': 0.1}
 
 
-compile_kwargs = {'optimizer': SGD(lr=0.05),
+compile_kwargs = {'optimizer': 'sgd',
                   'loss': 'sparse_categorical_crossentropy',
                   'metrics': ['accuracy']}
 
