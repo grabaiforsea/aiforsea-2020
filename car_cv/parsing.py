@@ -1,6 +1,7 @@
 import json
 import os
 import argparse
+import builtins
 
 
 def evaluate_type(type_name: str) -> type:
@@ -13,12 +14,12 @@ def evaluate_type(type_name: str) -> type:
     Returns:
         The corresponding type object.
     """
-    type_obj = getattr(__builtins__, type_name, None)
+    type_obj = getattr(builtins, type_name, None)
     if type_obj is not None and isinstance(type_obj, type):
         return type_obj
 
     else:
-        raise ValueError(f'Unknown type {type_name}')
+        raise ValueError(f'Unknown type {type_name}.')
 
 
 def make_parser(argument_spec_path: str) -> argparse.ArgumentParser:
