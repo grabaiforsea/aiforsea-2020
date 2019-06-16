@@ -4,6 +4,8 @@ from functools import reduce
 from itertools import chain
 from typing import Iterable, Tuple, Any
 
+from sys import stdout
+
 import requests
 from keras.engine import Layer
 
@@ -52,9 +54,25 @@ def stream_download(url: str, output_path: str):
     """
     with requests.get(url, stream=True) as req:
         if req.status_code == 200:
+            total_size = int(req.headers.get('content-length', None))
+            downloaded_size = 0
             with open(output_path, 'wb') as f:
+                last_output_length = 0
                 for chunk in req.iter_content(chunk_size=4096):
+                    downloaded_size += len(chunk)
+                    if total_size:
+                        output_string = (f'\rAmount downloaded: {downloaded_size:,}/{total_size:,} '
+                                         f'({downloaded_size / total_size:.1%})').ljust(last_output_length)
+
+                    else:
+                        output_string = f'\rAmount downloaded: {downloaded_size:,}'.ljust(last_output_length)
+
+                    last_output_length = len(output_string)
+                    stdout.write(output_string)
+                    stdout.flush()
                     f.write(chunk)
+
+                stdout.write('\n')
 
         else:
             raise RuntimeError(f'Download failed; got HTTP code {req.status}')

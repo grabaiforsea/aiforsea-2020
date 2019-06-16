@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import List
 
 from keras.callbacks import CSVLogger, ReduceLROnPlateau, ModelCheckpoint, Callback
-from keras.optimizers import SGD
 
 n_channels = 3
 
