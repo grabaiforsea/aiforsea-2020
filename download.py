@@ -26,9 +26,8 @@ except FileExistsError:
 for dataset_type in args.datasets:
     print(f'Downloading {dataset_type} dataset...')
     try:
-        dataset_path = os.path.join(args.output_path, f'devkit_{dataset_type}.mat')
         stream_download(dataset_urls[dataset_type], '_TEMPFILE')
-        extract_tgz('_TEMPFILE', dataset_path)
+        extract_tgz('_TEMPFILE', args.output_path)
 
     finally:
         os.remove('_TEMPFILE')
