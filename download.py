@@ -3,12 +3,13 @@ import os
 from shutil import rmtree
 
 from car_cv.parsing import make_parser
-from car_cv.utils import stream_download, extract_tgz
 
 argument_spec_path = os.path.join('resources', 'download_argument_spec.json')
 
 parser = make_parser(argument_spec_path)
 args = parser.parse_args()
+
+from car_cv.utils import stream_download, extract_tgz
 
 dataset_urls = {'train': 'http://imagenet.stanford.edu/internal/car196/cars_train.tgz',
                 'test': 'http://imagenet.stanford.edu/internal/car196/cars_test.tgz'}

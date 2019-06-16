@@ -2,19 +2,21 @@ import os
 import numpy as np
 from math import ceil
 
-from keras.models import load_model
-from keras_preprocessing.image import ImageDataGenerator
-
-from car_cv.defaults import augmentation_kwargs, make_callbacks, n_channels
-from car_cv.models import instantiate_custom
 from car_cv.parsing import make_parser
-from car_cv.prebuilt import prebuilts, instantiate_prebuilt
-from car_cv.utils import get_dir_info
 
 argument_spec_path = os.path.join('resources', 'run_argument_spec.json')
 
 parser = make_parser(argument_spec_path)
 args = parser.parse_args()
+
+from keras.models import load_model
+from keras_preprocessing.image import ImageDataGenerator
+
+from car_cv.defaults import augmentation_kwargs, make_callbacks, n_channels
+from car_cv.models import instantiate_custom
+from car_cv.prebuilt import prebuilts, instantiate_prebuilt
+from car_cv.utils import get_dir_info
+
 
 flow_kwargs = {'target_size': args.image_size,
                'class_mode' : 'sparse',
