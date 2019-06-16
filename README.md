@@ -8,6 +8,7 @@ This is my submission for the **Computer Vision** Grab AI for SEA Challenge, con
 	* Image cropping and directory organisation	
 	* Training, evaluation and prediction
 * A small library containing utilities supporting the scripts
+* An implementation of Inception V4
 * A notebook to perform prediction
 
 The model uses the Inception-ResNet V2 architecture (described in [this](http://arxiv.org/abs/1602.07261) paper), pretrained on imagenet data, and then trained on the training data from the [Stanford car dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html). It has an accuracy of **89.50%** on the testing data from that dataset.
