@@ -1,5 +1,4 @@
 import os
-
 from shutil import rmtree
 
 from car_cv.parsing import make_parser
@@ -9,7 +8,7 @@ argument_spec_path = os.path.join('resources', 'download_argument_spec.json')
 parser = make_parser(argument_spec_path)
 args = parser.parse_args()
 
-from car_cv.utils import stream_download, extract_tgz
+from car_cv.iolib import stream_download, extract_tgz
 
 dataset_urls = {'train': 'http://imagenet.stanford.edu/internal/car196/cars_train.tgz',
                 'test': 'http://imagenet.stanford.edu/internal/car196/cars_test.tgz'}
@@ -27,12 +26,13 @@ for dataset_type in args.datasets:
     print(f'Downloading {dataset_type} dataset...')
     try:
         stream_download(dataset_urls[dataset_type], '_TEMPFILE')
+        print(f'Done downloading {dataset_type} dataset.')
         extract_tgz('_TEMPFILE', args.output_path)
+        print(f'{dataset_type} dataset successfully extracted to {args.output_path}')
 
     finally:
         os.remove('_TEMPFILE')
 
-    print(f'Done downloading {dataset_type} dataset.')
 
 for devkit_type in args.devkits:
     print(f'Downloading {devkit_type} devkit...')
