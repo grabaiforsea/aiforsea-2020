@@ -62,6 +62,9 @@ if args.training_path:
                         callbacks=make_callbacks(args.verbosity),
                         validation_data=validation_iterator,
                         validation_steps=validation_steps)
+                        
+    if args.save_path is not None:
+        model.save(save_path)
 
 if args.evaluation_path:
     evaluation_data_generator = ImageDataGenerator()

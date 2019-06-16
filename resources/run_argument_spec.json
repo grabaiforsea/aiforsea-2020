@@ -78,14 +78,16 @@
     "command": ["--save-model"],
     "options": {
       "metavar": "model_path",
-      "help": "The path to which to save the trained model. Requires --train to be specified."
+      "help": "The path to which to save the trained model. Requires --train to be specified.",
+	  "dest": "save_path"
     }
   },
   {
     "command": ["--load-model"],
     "options": {
       "metavar": "model_path",
-      "help": "The path from which to load a model. Cannot coexist with --architecture."
+      "help": "The path from which to load a model. Cannot coexist with --architecture.",
+	  "dest": "load_path"
     }
   },
   {
