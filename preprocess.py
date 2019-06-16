@@ -8,6 +8,7 @@ argument_spec_path = os.path.join('resources', 'preprocess_argument_spec.json')
 parser = make_parser(argument_spec_path)
 args = parser.parse_args()
 
+
 import cv2
 
 from car_cv.image_ops import load_annotations, crop_image, check_dims, write_image
@@ -40,7 +41,8 @@ if args.reorganise or args.crop:
             result = image
 
         if args.reorganise:
-            output_path = os.path.join(args.output_path, image_path, target_and_file_name[1])
+            path_suffix = os.path.basename(os.path.normpath(image_path))
+            output_path = os.path.join(args.output_path, path_suffix, target_and_file_name[1])
             write_image(result, output_path, file_name)
 
         else:
