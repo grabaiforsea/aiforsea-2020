@@ -23,7 +23,7 @@ The model uses the Inception-ResNet V2 architecture (described in [this](http://
     2. If you also wish to preprocess the test images in this way, run `python preprocess.py download_output/devkit_test.mat download_output/cars_test/ --reorganise --crop`.
 6.  
     1. If you wish to train a model from scratch, run `python run.py --train preprocess_output/cars_train`. To perform testing on the test dataset, you can add `--evaluate preprocess_output/cars_test` to the same command. Not specifying `--architecture` will lead to automatically using the Inception-ResNet V2 architecture.
-    2. Otherwise, download the trained Inception-ResNet V2 model from GitHub. To evaluate the model, run `python run.py --evaluate preprocess_output/cars_test --load_model aiforsea-model-20190615-150602-30-0.4555.h5`.
+    2. Otherwise, download the [trained Inception-ResNet V2 model](https://github.com/marcuslimdw/aiforsea-2019/releases/download/v1.0/aiforsea-model-20190615-150602-30-0.4555.h5). To evaluate the model, run `python run.py --evaluate preprocess_output/cars_test --load_model aiforsea-model-20190615-150602-30-0.4555.h5`.
 7. To perform prediction (inference) on an unseen dataset using the trained model, run `python run.py --predict <path_to_dataset> <path_to_output> --load_model aiforsea-model-20190615-150602-30-0.4555.h5`. For convenience, a Jupyter notebook doing the same thing is available as `prediction_notebook.ipynb`.
 
 ## Notes
