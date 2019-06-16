@@ -18,7 +18,7 @@ devkit_urls = {'train': 'https://ai.stanford.edu/~jkrause/cars/car_devkit.tgz',
                'test': 'http://imagenet.stanford.edu/internal/car196/cars_test_annos_withlabels.mat'}
 
 try:
-    os.mkdir(args.output_folder)
+    os.mkdir(args.output_path)
 
 except FileExistsError:
     pass
@@ -26,7 +26,7 @@ except FileExistsError:
 for dataset_type in args.datasets:
     print(f'Downloading {dataset_type} dataset...')
     try:
-        dataset_path = os.path.join(args.output_folder, f'devkit_{dataset_type}.mat')
+        dataset_path = os.path.join(args.output_path, f'devkit_{dataset_type}.mat')
         stream_download(dataset_urls[dataset_type], '_TEMPFILE')
         extract_tgz('_TEMPFILE', dataset_path)
 
@@ -37,7 +37,7 @@ for dataset_type in args.datasets:
 
 for devkit_type in args.devkits:
     print(f'Downloading {devkit_type} devkit...')
-    devkit_path = os.path.join(args.output_folder, f'devkit_{devkit_type}.mat')
+    devkit_path = os.path.join(args.output_path, f'devkit_{devkit_type}.mat')
     if devkit_type == 'train':
         try:
             stream_download(devkit_urls[devkit_type], '_TEMPFILE')
