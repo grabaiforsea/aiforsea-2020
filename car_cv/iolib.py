@@ -18,17 +18,15 @@ def stream_download(url: str, output_path: str):
             total_size = int(req.headers.get('content-length', None))
             downloaded_size = 0
             with open(output_path, 'wb') as f:
-                last_output_length = 0
                 for chunk in req.iter_content(chunk_size=4096):
                     downloaded_size += len(chunk)
                     if total_size:
-                        output_string = (f'\rAmount downloaded: {downloaded_size:,}/{total_size:,} '
-                                         f'({downloaded_size / total_size:.1%})').ljust(last_output_length)
+                        output_string = (f'\rDownload progress (bytes): {downloaded_size:,}/{total_size:,} '
+                                         f'({downloaded_size / total_size:.1%})')
 
                     else:
-                        output_string = f'\rAmount downloaded: {downloaded_size:,}'.ljust(last_output_length)
+                        output_string = f'\rDownload progress (bytes): {downloaded_size:,}'
 
-                    last_output_length = len(output_string)
                     stdout.write(output_string)
                     stdout.flush()
                     f.write(chunk)

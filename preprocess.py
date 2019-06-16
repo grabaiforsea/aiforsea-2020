@@ -1,4 +1,5 @@
 import os
+from sys import stdout
 from warnings import warn
 
 from car_cv.parsing import make_parser
@@ -24,7 +25,14 @@ if args.reorganise or args.crop:
     else:
         bb_info = devkit_info[['x_min', 'y_min', 'x_max', 'y_max', 'file_name']]
 
+    total_images = len(bb_info)
+    processed_images = 0
+
     for _, (bb_x_min, bb_y_min, bb_x_max, bb_y_max, *target_and_file_name) in bb_info.iterrows():
+        processed_images += 1
+        stdout.write(f'\rNumber of images processed: {processed_images}/{total_images} '
+                     f'({processed_images / total_images:.1%})')
+        stdout.flush()
         file_name = target_and_file_name[0]
         file_path = os.path.join(image_path, file_name)
 
@@ -47,3 +55,5 @@ if args.reorganise or args.crop:
 
         else:
             write_image(result, image_path, file_name)
+
+    stdout.write('\n')
