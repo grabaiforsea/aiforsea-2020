@@ -10,7 +10,7 @@ This is my submission for the **Computer Vision** Grab AI for SEA Challenge, con
 * A small library containing utilities supporting the scripts
 * A notebook to perform prediction
 
-The model uses the Inception-ResNet V2 architecture (described in [this](http://arxiv.org/abs/1602.07261) paper), pretrained on imagenet data, and then trained on the training data from the [Stanford car dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html). It has an accuracy of **89.47%** on the testing data from that dataset.
+The model uses the Inception-ResNet V2 architecture (described in [this](http://arxiv.org/abs/1602.07261) paper), pretrained on imagenet data, and then trained on the training data from the [Stanford car dataset](https://ai.stanford.edu/~jkrause/cars/car_dataset.html). It has an accuracy of **89.50%** on the testing data from that dataset.
 
 ## Usage instructions
 
