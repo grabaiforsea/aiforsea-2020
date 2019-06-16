@@ -62,18 +62,18 @@ from car_cv.models.model_builder import build_from_spec
 
 input_tensor = Input(shape=(299, 299, 3))
 layers = [Conv2D(32, kernel_size=(3, 3)),
-		  Activation('relu'),
-		  Conv2D(32, kernel_size=(3, 3)),
-		  Activation('relu'),
-		  Conv2D(32, kernel_size=(3, 3)),
-		  MaxPooling2D(),
-		  Dropout(0.2),
-		  Flatten(),
-		  Dense(512),
-		  Activation('relu'),
-		  Dense(50),
-		  Activation('softmax')
-		  ]
+          Activation('relu'),
+          Conv2D(32, kernel_size=(3, 3)),
+          Activation('relu'),
+          Conv2D(32, kernel_size=(3, 3)),
+          MaxPooling2D(),
+          Dropout(0.2),
+          Flatten(),
+          Dense(512),
+          Activation('relu'),
+          Dense(50),
+          Activation('softmax')
+          ]
 
 output_tensor = build_from_spec(layers, input_tensor)
 spec_model = Model(inputs=[input_tensor], outputs=[output_tensor])
