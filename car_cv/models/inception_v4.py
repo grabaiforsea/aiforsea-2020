@@ -9,7 +9,8 @@ from car_cv.models.layers import bn_conv2d_3x3, bn_conv2d_1x1, bn_conv2d
 from car_cv.models.model_builder import build_from_spec
 
 
-# This module is my implementation of InceptionV4, based on https://arxiv.org/pdf/1602.07261v1.pdf, with some
+#
+# This module contains my implementation of InceptionV4, based on https://arxiv.org/pdf/1602.07261v1.pdf, with some
 # differences from the architecture laid out in the paper's diagrams.
 #
 # Stem:
@@ -27,7 +28,6 @@ from car_cv.models.model_builder import build_from_spec
 # A note: I believe there is actually no need to specify padding='same' for the 1x1 convolutional layers, but I have
 # left it in in the interests of consistency.
 #
-# Also,
 
 
 def inception_v4(input_shape: Tuple[int, int], n_classes: int) -> Model:

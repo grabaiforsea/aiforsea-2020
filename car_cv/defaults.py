@@ -12,7 +12,6 @@ augmentation_kwargs = {'rotation_range'  : 15,
                        'shear_range'     : 20,
                        'validation_split': 0.1}
 
-
 compile_kwargs = {'optimizer': 'sgd',
                   'loss': 'sparse_categorical_crossentropy',
                   'metrics': ['accuracy']}

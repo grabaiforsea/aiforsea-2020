@@ -66,9 +66,12 @@ if args.evaluation_path:
     evaluation_iterator = evaluation_data_generator.flow_from_directory(args.evaluation_path,
                                                                         shuffle=False,
                                                                         **flow_kwargs)
-    evaluation_results = model.evaluate_generator(evaluation_iterator)
+    evaluation_results = model.evaluate_generator(evaluation_iterator, verbose=args.verbosity)
+    print('=' * 80)
     for metric, value in zip(model.metrics_names, evaluation_results):
         print(f'{metric}: {value}')
+
+    print('=' * 80)
 
 
 if args.prediction_paths:
@@ -77,5 +80,5 @@ if args.prediction_paths:
     prediction_iterator = prediction_data_generator.flow_from_directory(prediction_data_path,
                                                                         shuffle=False,
                                                                         **flow_kwargs)
-    prediction_result = model.predict_generator(prediction_iterator)
+    prediction_result = model.predict_generator(prediction_iterator, verbose=args.verbosity)
     np.save(prediction_output_path, prediction_result)
